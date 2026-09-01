@@ -22,14 +22,14 @@
     IgnorableNamespaces="uap rescap">
 
   <Identity
-      Name="YourPublisher.BasicSOCDrills"
-      Publisher="CN=YOUR-CERT-SUBJECT-HERE"
+      Name="TMHP.com.BasicSOCdrills"
+      Publisher="CN=BB6CF6A1-F89B-484C-85F4-1A7E35694B74"
       Version="1.0.0.0"
       ProcessorArchitecture="x64" />
 
   <Properties>
     <DisplayName>Basic SOC Drills</DisplayName>
-    <PublisherDisplayName>Your Company Name</PublisherDisplayName>
+    <PublisherDisplayName>@TMHP.com</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
     <Description>A themed desktop tool for running local SOC / security-admin drills (scans, log review, firewall and account management) with a Simulation Mode preview and an explicit privilege-escalation notice before any elevated action can run.</Description>
   </Properties>

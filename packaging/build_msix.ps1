@@ -112,7 +112,7 @@ $BundleStage = Join-Path $Packaging "bundle_stage"
 if (Test-Path $BundleStage) { Remove-Item $BundleStage -Recurse -Force }
 New-Item -ItemType Directory -Path $BundleStage | Out-Null
 Copy-Item "$OutDir\BasicSOCDrills.msix" $BundleStage
-& $MakeAppx bundle /d "$BundleStage" /p "$OutDir\BasicSOCDrills.msixbundle" /o
+& $MakeAppx bundle /d "$BundleStage" /p "$OutDir\BasicSOCDrills.msixbundle" /bv $Version /o
 Copy-Item "$OutDir\BasicSOCDrills.msixbundle" "$OutDir\BasicSOCDrills.appxbundle" -Force
 
 if ($PfxPath -and (Test-Path $PfxPath)) {
