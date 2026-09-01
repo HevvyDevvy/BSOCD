@@ -1,6 +1,7 @@
 name: Release
 
-# Fires when you push a version tag (e.g. `git tag v1.0.0 && git push --tags`).
+# Manual trigger only — run this from the Actions tab when you actually
+# want a signed release build, not automatically on every push/tag.
 # Builds the exe, packages MSIX/APPX/bundles, signs them if signing
 # secrets are configured, and attaches everything to a GitHub Release.
 #
@@ -15,17 +16,17 @@ name: Release
 #   CSC_KEY_PASSWORD  password for that .pfx
 #
 # See README.md "Code signing" section for how to generate/encode a cert.
+#
+# To run: go to Actions -> Release -> Run workflow, enter the version
+# number, and it builds/signs/releases on demand.
 
 on:
-  push:
-    tags:
-      - "v*.*.*"
   workflow_dispatch:
     inputs:
       version:
-        description: "Version to stamp into the package (e.g. 1.0.0). Only used for manual runs - tag pushes use the tag itself."
-        required: false
-        default: "0.0.0"
+        description: "Version to stamp into the package (e.g. 1.0.0)."
+        required: true
+        default: "1.0.0"
 
 permissions:
   contents: write
@@ -69,11 +70,7 @@ jobs:
         env:
           CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
         run: |
-          if ("${{ github.event_name }}" -eq "workflow_dispatch") {
-            $version = "${{ github.event.inputs.version }}" + ".0"
-          } else {
-            $version = "${{ github.ref_name }}".TrimStart("v") + ".0"
-          }
+          $version = "${{ github.event.inputs.version }}" + ".0"
           if ("${{ steps.cert.outputs.has_cert }}" -eq "true") {
             ./packaging/build_msix.ps1 -PfxPath "${{ steps.cert.outputs.cert_path }}" -PfxPassword "$env:CSC_KEY_PASSWORD" -Version $version
           } else {
@@ -90,7 +87,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.event_name == 'workflow_dispatch' && format('v{0}', github.event.inputs.version) || github.ref_name }}
+          tag_name: v${{ github.event.inputs.version }}
           files: |
             out/BasicSOCDrills.msix
             out/BasicSOCDrills.appx
