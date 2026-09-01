@@ -31,12 +31,7 @@
     <DisplayName>Basic SOC Drills</DisplayName>
     <PublisherDisplayName>Your Company Name</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
-    <Description>
-      A themed desktop tool for running local SOC / security-admin drills
-      (scans, log review, firewall and account management) with a
-      Simulation Mode preview and an explicit privilege-escalation notice
-      before any elevated action can run.
-    </Description>
+    <Description>A themed desktop tool for running local SOC / security-admin drills (scans, log review, firewall and account management) with a Simulation Mode preview and an explicit privilege-escalation notice before any elevated action can run.</Description>
   </Properties>
 
   <Resources>
