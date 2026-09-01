@@ -28,7 +28,7 @@
       ProcessorArchitecture="x64" />
 
   <Properties>
-    <DisplayName>Basic SOC Drills</DisplayName>
+    <DisplayName>BasicSOCdrills</DisplayName>
     <PublisherDisplayName>@TMHP.com</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
     <Description>A themed desktop tool for running local SOC / security-admin drills (scans, log review, firewall and account management) with a Simulation Mode preview and an explicit privilege-escalation notice before any elevated action can run.</Description>
@@ -51,9 +51,9 @@
   </Capabilities>
 
   <Applications>
-    <Application Id="BasicSOCDrills" Executable="BasicSOCDrills.exe" EntryPoint="Windows.FullTrustApplication">
+    <Application Id="BasicSOCdrills" Executable="BasicSOCdrills.exe" EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements
-          DisplayName="Basic SOC Drills"
+          DisplayName="BasicSOCdrills"
           Description="SOC / security-admin drill toolkit"
           BackgroundColor="#05080a"
           Square150x150Logo="Assets\Square150x150Logo.png"
