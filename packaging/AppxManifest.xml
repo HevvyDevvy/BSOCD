@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  AppxManifest.xml — Basic SOC Drills (Desktop Bridge / Win32 full-trust app)
+
+  This packages a classic Win32 EXE (PyInstaller output) as MSIX using the
+  Desktop Bridge model, NOT the sandboxed UWP model. That distinction
+  matters for a system-administration / security tool: runFullTrust lets
+  the packaged EXE call the same Win32 APIs and subprocesses (netsh, net
+  user, sc, etc.) it would use unpackaged, while still giving you MSIX's
+  clean install/uninstall and Store distribution.
+
+  Fill in the placeholders before signing/submission:
+    - Publisher: must exactly match the certificate subject you sign with
+      and, for Store submission, the Publisher ID shown in Partner Center.
+    - Identity Name: reserved via Partner Center when you register the app.
+    - Publisher Display Name / Package Display Name: shown to users.
+-->
+<Package
+    xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+    xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+    xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+    IgnorableNamespaces="uap rescap">
+
+  <Identity
+      Name="YourPublisher.BasicSOCDrills"
+      Publisher="CN=YOUR-CERT-SUBJECT-HERE"
+      Version="1.0.0.0"
+      ProcessorArchitecture="x64" />
+
+  <Properties>
+    <DisplayName>Basic SOC Drills</DisplayName>
+    <PublisherDisplayName>Your Company Name</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+    <Description>
+      A themed desktop tool for running local SOC / security-admin drills
+      (scans, log review, firewall and account management) with a
+      Simulation Mode preview and an explicit privilege-escalation notice
+      before any elevated action can run.
+    </Description>
+  </Properties>
+
+  <Resources>
+    <Resource Language="en-us" />
+  </Resources>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.22621.0" />
+  </Dependencies>
+
+  <Capabilities>
+    <!-- runFullTrust: required for a Desktop Bridge Win32 app that shells
+         out to system commands. This is a "restricted" capability — Store
+         review specifically evaluates apps requesting it, which is
+         expected and appropriate for a declared security/admin tool. -->
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+
+  <Applications>
+    <Application Id="BasicSOCDrills" Executable="BasicSOCDrills.exe" EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements
+          DisplayName="Basic SOC Drills"
+          Description="SOC / security-admin drill toolkit"
+          BackgroundColor="#05080a"
+          Square150x150Logo="Assets\Square150x150Logo.png"
+          Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+</Package>

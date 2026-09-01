@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# PyInstaller build output
+build/
+dist/
+*.spec.bak
+
+# MSIX/APPX packaging output and staging dirs
+out/
+packaging/stage/
+packaging/bundle_stage/
+
+# Certificates - NEVER commit these
+*.pfx
+*.p12
+*.cer
+*_cert_base64.txt
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/

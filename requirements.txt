@@ -1,0 +1,8 @@
+# Basic SOC Drills GUI - runtime uses only the standard library.
+# Tkinter ships with CPython but is packaged separately on Debian/Kali/Ubuntu:
+#   sudo apt install python3-tk
+#
+# Below are BUILD-TIME only deps (packaging the Windows .exe / MSIX),
+# not required to just run `python3 app.py`.
+pyinstaller>=6.3
+pillow>=10.0

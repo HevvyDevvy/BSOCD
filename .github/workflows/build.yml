@@ -1,0 +1,64 @@
+name: Build
+
+# Runs on every push and PR: builds the Windows executable and packages
+# it as .msix / .appx / .msixbundle / .appxbundle. Packages are uploaded
+# as workflow artifacts (not published anywhere) so you can download and
+# test them from the Actions tab on any commit.
+#
+# This does NOT sign the packages — see release.yml for the signed,
+# tagged-release build. Unsigned packages here are for local testing
+# only (sideload with Developer Mode, or install your own test cert).
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch: {}
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install build dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build executable (PyInstaller)
+        run: pyinstaller packaging/BasicSOCDrills.spec --distpath dist --workpath build --noconfirm
+
+      - name: Verify executable was produced
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "dist/BasicSOCDrills.exe")) {
+            throw "PyInstaller did not produce dist/BasicSOCDrills.exe"
+          }
+
+      - name: Package MSIX / APPX (unsigned)
+        shell: pwsh
+        run: ./packaging/build_msix.ps1
+
+      - name: Upload unsigned packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: BasicSOCDrills-unsigned-packages
+          path: |
+            out/BasicSOCDrills.msix
+            out/BasicSOCDrills.appx
+            out/BasicSOCDrills.msixbundle
+            out/BasicSOCDrills.appxbundle
+          if-no-files-found: error
+
+      - name: Upload raw executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: BasicSOCDrills-exe
+          path: dist/BasicSOCDrills.exe
+          if-no-files-found: error
